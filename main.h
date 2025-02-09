@@ -1,3 +1,4 @@
+#pragma once
 #include <bits/stdc++.h>
 #include "BOBHash32.h"
 #include "LRU.h"
@@ -51,7 +52,7 @@ public:
         tower->apply_all(id, 0, new_v);
     }
 
-    vector<int> build(uint32_t * items, int n){
+    virtual vector<int> build(uint32_t * items, int n){
         vector<int> result(3);
         for (int i = 0; i < n; ++i){
             auto item = items[i];

@@ -1,3 +1,6 @@
+#ifndef _TOWER_H_
+#define _TOWER_H_
+
 #include <bits/stdc++.h>
 #include "BOBHash32.h"
 #include "utils.h"
@@ -196,6 +199,17 @@ public:
         }
     }
 
+    vector<int> search_idx(uint32_t key)
+    {
+        vector<int> ret;
+        for (uint32_t i_level = 0; i_level < level; ++i_level)
+        {
+            uint32_t tmp = key % mat[i_level].w;
+            ret.push_back(tmp);
+        }
+        return ret;
+    }
+
     uint32_t query(uint32_t key, uint32_t row_id)
     {
         uint32_t ret = UINT8_MAX;
@@ -219,3 +233,5 @@ public:
 
 
 
+
+#endif

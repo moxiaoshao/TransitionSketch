@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "main.h"
+#include "TSketch_multithread.h"
 #include "BOBHash32.h"
 using namespace std;
 #define MAX_INSERT_PACKAGE 32768000
@@ -63,9 +64,17 @@ int load_data(const char *filename) {
 void freq_test(double mem, double per, int packet_num, int cols, int key_len, int counter_len, int rand_seed){
     timespec dtime1, dtime2;
     int bucket_num = (mem * per) * 1024 / cols / (key_len / 8 + counter_len / 8) / 2;
-    TransitionSketch *tower = new TransitionSketch(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    // TransitionSketchMultiThread *tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    TransitionSketch *tower;
+    if (test_thread_number == 1)
+        tower = new TransitionSketch(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    else
+        tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
     clock_gettime(CLOCK_MONOTONIC, &dtime1);
+    auto start = std::chrono::high_resolution_clock::now();
     vector<int> tmp = tower->build(insert_data, packet_num);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
     clock_gettime(CLOCK_MONOTONIC, &dtime2);
     double delay = (long long)(dtime2.tv_sec - dtime1.tv_sec) * 1000000000LL + (dtime2.tv_nsec - dtime1.tv_nsec);
     int cnt = 0;
@@ -83,12 +92,15 @@ void freq_test(double mem, double per, int packet_num, int cols, int key_len, in
     cout << "AAE = " << aae << '\n';
     cout << "Zero Error Rate = " << (double)cnt / ground_truth.size() << '\n';
     cout << "Throughput = " << (double)(1000)*(double)(packet_num)/(double)delay << '\n';
+    cout << "Elapsed time: " << elapsed.count() << " seconds\n";
     delete tower;
+
+    test_throughput_result = (double)(1000)*(double)(packet_num)/(double)delay;
 }
 void topk_test(int topk, double mem, double per, int packet_num, int cols, int key_len, int counter_len, int rand_seed){
     timespec dtime1, dtime2;
     int bucket_num = (mem * per) * 1024 / cols / (key_len / 8 + counter_len / 8) / 2;
-    TransitionSketch *tower = new TransitionSketch(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    TransitionSketchMultiThread *tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
     clock_gettime(CLOCK_MONOTONIC, &dtime1);
     tower->build(insert_data, packet_num);
     clock_gettime(CLOCK_MONOTONIC, &dtime2);
@@ -129,16 +141,39 @@ void topk_test(int topk, double mem, double per, int packet_num, int cols, int k
     cout << "Throughput = " << (double)(1000)*(double)(packet_num)/(double)delay << '\n';
 }
 
+void find_MT_config(double mem, double per, int packet_num, int cols, int key_len, int counter_len, int rand_seed){
+    // tower lock is too slow and not neccessary for low error
+    auto f = fopen("MT_config.csv", "w");
+    fprintf(f, "Thread Number\\Mutex Number, ");
+    for (int mutex_num = 1; mutex_num < 1024 * 1024; mutex_num *= 2){
+        fprintf(f, "%d, ", mutex_num);
+    }
+    fprintf(f, "\n");
+    for (test_thread_number = 1; test_thread_number < 8; test_thread_number *= 2){
+        fprintf(f, "%d, ", test_thread_number);
+        for (int mutex_num = 1; mutex_num < 1024 * 1024; mutex_num *= 2){
+            default_mutex_pool_config["LRULFU"] = {mutex_num};
+            freq_test(mem, per, packet_num, cols, key_len, counter_len, rand_seed);
+            fprintf(f, "%.6lf, ", test_throughput_result);
+            if (test_thread_number == 1) break;
+        }
+        fprintf(f, "\n");
+    }
+    fclose(f);
+}
+
 int main(){
     int topk = 1000;
-    int packet_num = load_data("/share/datasets/CAIDA2018/dataset/130000.dat");
+    // int packet_num = load_data("/share/datasets/CAIDA2018/dataset/130000.dat");
+    int packet_num = load_data("./data/130000.dat");
     double per = 0.3;
     int cols = 4;
     int key_len = 32;
     int counter_len = 24;
     int rand_seed = 750;
     double mem_in_kb = 1000;
-    freq_test(mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
+    // freq_test(mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
+    find_MT_config(mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     cout << '\n';
     topk_test(topk, mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     return 0;
