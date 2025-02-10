@@ -1,0 +1,1 @@
+/usr/bin/c++   -pedantic -w -msse2 -mssse3 -msse4.1 -msse4.2 -mavx -mbmi -march=native -O3 -std=c++11  -rdynamic CMakeFiles/demo.dir/src/main.cpp.o  -o bin/demo 
