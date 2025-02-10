@@ -3,25 +3,25 @@
 ## Introduction
 - The `./TransitionSketch/` directory contains the implementation and tests of TransitionSketch.
 
-## Information on the dataset used in this project:
-- [WebDocs 95W](http://fimi.uantwerpen.be/data/)
-Total stream size = 32768000
-Distinct item number = 953165
-Max frequency = 158740
+## Information on the Dataset Used in This Project
+- **[WebDocs 95W](http://fimi.uantwerpen.be/data/)**
+  - Total stream size: 32,768,000
+  - Distinct item number: 953,165
+  - Max frequency: 158,740
 
-- [CAIDA 160W](https://www.caida.org/catalog/datasets/passive_dataset/)
-Total stream size = 4.2x10^8
-Distinct item number = 1.6x10^6
-Max frequency = 3694272
+- **[CAIDA 160W](https://www.caida.org/catalog/datasets/passive_dataset/)**
+  - Total stream size: \(4.2 \times 10^8\)
+  - Distinct item number: \(1.6 \times 10^6\)
+  - Max frequency: 3,694,272
 
-- Zipf1.0
-Total stream size = 16000000
-Distinct item number = 874919
-Max frequency = 1110233
+- **Zipf 1.0**
+  - Total stream size: 16,000,000
+  - Distinct item number: 874,919
+  - Max frequency: 1,110,233
 
-## How to make and run the test
+## How to Build and Run the Tests
 
-- Compilations: To compile test codes of TransitionSketch, just run: 
+- **Compilation**: To compile the test code for TransitionSketch, run:
 
   ```shell
   cd TransitionSketch
@@ -29,6 +29,9 @@ Max frequency = 1110233
   ./test
   ```
 
+### Additional Information
+To find information on running the multithreaded version of this algorithm, please refer to the readme.txt file.
+```
 
 
 
