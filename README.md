@@ -10,9 +10,9 @@ Distinct item number = 953165
 Max frequency = 158740
 
 - [CAIDA 130W](https://www.caida.org/catalog/datasets/passive_dataset/)
-Total stream size = 27121713
-Distinct item number = 1325844
-Max frequency = 460212
+Total stream size = 4.2 \times 10^8
+Distinct item number = 1.6\times 10^6
+Max frequency = 3694272
 
 - Zipf1.0
 Total stream size = 16000000
