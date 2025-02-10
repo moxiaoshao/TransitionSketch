@@ -30,7 +30,7 @@
   ```
 
 ### Multithreaded Version
-To find information on running the multithreaded version of this algorithm, please refer to the readme.txt file.
+To find information on running the multithreaded version of this algorithm, please refer to the **readme.txt** file.
 
 
 
