@@ -29,6 +29,13 @@ public:
         memset(counter, 0, sizeof(uint32_t) * cols);
     }
 
+    ~LRUBucket() {
+        if (fp)
+            delete[] fp;
+        if (counter)
+            delete[] counter;
+    }
+
     void permutation(int p) // permute the p-th item to the first
     {
         for (int i = p; i > 0; --i)
@@ -54,15 +61,13 @@ public:
     {
         Bucket1 = new LRUBucket[bucket_num];
         for (int i = 0; i < bucket_num; ++i)
-            Bucket1[i] = LRUBucket(_cols);
+            new (&Bucket1[i]) LRUBucket(cols);
 
     }
 
-    ~LRU() { clear(); }
-
-    void clear(){
+    ~LRU() {
         if (Bucket1)
-            delete Bucket1;
+            delete[] Bucket1;
     }
 
     int insert(uint32_t key, int count = 1, int idx = -1) // return dequeued item

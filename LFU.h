@@ -27,6 +27,13 @@ public:
         memset(counter, 0, sizeof(uint32_t) * cols);
     }
 
+    ~LFUBucket() {
+        if (fp)
+            delete[] fp;
+        if (counter)
+            delete[] counter;
+    }
+
 
     int permutation(int p) // permute the p-th item to the first
     {
@@ -69,18 +76,16 @@ public:
 
     LFU() {}
 
-    ~LFU() { clear(); }
-
-    void clear(){
+    ~LFU() {
         if (Bucket1)
-            delete Bucket1;
+            delete[] Bucket1;
     }
 
     LFU(int _bucket_num, int _cols, int _counter_len, int rand_seed): bucket_num(_bucket_num),cols(_cols), counter_len(_counter_len)
     {
         Bucket1 = new LFUBucket[bucket_num];
         for (int i = 0; i < bucket_num; ++i)
-            Bucket1[i] = LFUBucket(_cols);
+            new (&Bucket1[i]) LFUBucket(cols);
 
     }
 

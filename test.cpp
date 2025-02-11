@@ -70,6 +70,7 @@ void freq_test(double mem, double per, int packet_num, int cols, int key_len, in
         tower = new TransitionSketch(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
     else
         tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    // TransitionSketchMultiThread *tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
     clock_gettime(CLOCK_MONOTONIC, &dtime1);
     auto start = std::chrono::high_resolution_clock::now();
     vector<int> tmp = tower->build(insert_data, packet_num);
@@ -100,7 +101,11 @@ void freq_test(double mem, double per, int packet_num, int cols, int key_len, in
 void topk_test(int topk, double mem, double per, int packet_num, int cols, int key_len, int counter_len, int rand_seed){
     timespec dtime1, dtime2;
     int bucket_num = (mem * per) * 1024 / cols / (key_len / 8 + counter_len / 8) / 2;
-    TransitionSketchMultiThread *tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    TransitionSketch *tower;
+    if (test_thread_number == 1)
+        tower = new TransitionSketch(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
+    else
+        tower = new TransitionSketchMultiThread(mem, bucket_num, cols, counter_len, rand_seed, 1 - per);
     clock_gettime(CLOCK_MONOTONIC, &dtime1);
     tower->build(insert_data, packet_num);
     clock_gettime(CLOCK_MONOTONIC, &dtime2);
@@ -149,9 +154,9 @@ void find_MT_config(double mem, double per, int packet_num, int cols, int key_le
         fprintf(f, "%d, ", mutex_num);
     }
     fprintf(f, "\n");
-    for (test_thread_number = 1; test_thread_number < 8; test_thread_number *= 2){
+    for (test_thread_number = 8; test_thread_number < 16; test_thread_number *= 2){
         fprintf(f, "%d, ", test_thread_number);
-        for (int mutex_num = 1; mutex_num < 1024 * 1024; mutex_num *= 2){
+        for (int mutex_num = 512*1024; mutex_num < 1024 * 1024; mutex_num *= 2){
             default_mutex_pool_config["LRULFU"] = {mutex_num};
             freq_test(mem, per, packet_num, cols, key_len, counter_len, rand_seed);
             fprintf(f, "%.6lf, ", test_throughput_result);
@@ -175,6 +180,6 @@ int main(){
     // freq_test(mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     find_MT_config(mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     cout << '\n';
-    topk_test(topk, mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
+    // topk_test(topk, mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     return 0;
 }

@@ -18,7 +18,6 @@ public:
     single_layer_mutex_pool lrulfu_pool;
     multi_layer_mutex_pool tower_pool;
 
-    ~TransitionSketchMultiThread() {}
     TransitionSketchMultiThread(double mem, int _bucket_num, int _cols, int _counter_len,
                   int rand_seed, double per, mutex_pool_config_t mutex_config=default_mutex_pool_config) : lrulfu_pool(mutex_config["LRULFU"][0]), tower_pool(mutex_config["Tower"]), TransitionSketch(mem, _bucket_num, _cols, _counter_len, rand_seed, per)
     {}
@@ -29,7 +28,9 @@ public:
 
     vector<int> build(uint32_t * items, int n) override {
         vector<int> final_result(3);
-        std::vector<std::vector<int>> thread_results(4, std::vector<int>(3, 0));
+        std::vector<std::vector<int>> thread_results(test_thread_number, std::vector<int>(3, 0));
+        thread_results.reserve(test_thread_number);
+        std::mutex result_mutex;
         // distribute the items to different threads
         const int num_threads = test_thread_number;
 
@@ -39,7 +40,8 @@ public:
         for (int i = 0; i < num_threads; ++i) {
             size_t start_idx = i * chunk_size;
             size_t end_idx = (i == num_threads - 1) ? n : (i + 1) * chunk_size;
-            threads.emplace_back([&items, start_idx, end_idx, i, &thread_results, this]() {
+            threads.emplace_back([&items, start_idx, end_idx, i, &thread_results, &result_mutex, this]() {
+                std::lock_guard<std::mutex> lock(result_mutex);
                 thread_results[i] = build(items, start_idx, end_idx);
             });
         }

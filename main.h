@@ -27,6 +27,8 @@ public:
             delete lfu;
         if (tower)
             delete tower;
+        if (lHash)
+            delete lHash;
     }
     TransitionSketch(double mem, int _bucket_num, int _cols, int _counter_len,
                   int rand_seed, double per)

@@ -18,10 +18,6 @@
 class single_layer_mutex_pool {
 public:
     std::vector<std::shared_mutex> locks;
-    // single_layer_mutex_pool(int n) {
-    //     std::vector<std::shared_mutex> list(n);
-    //     locks.swap(list);
-    // }
 #ifdef ASSERT_MOD_POWER_OF_TWO
     size_t size_minus_one;
     single_layer_mutex_pool(int n) : locks(n), size_minus_one(n - 1) {
@@ -31,9 +27,6 @@ public:
     size_t size;
     single_layer_mutex_pool(int n) : locks(n), size(n) {}
 #endif
-    // shared_mutex usage:
-    // std::unique_lock<std::shared_mutex> lock(locks[i]);
-    // std::shared_lock<std::shared_mutex> lock(locks[i]);
     std::shared_mutex &operator[](size_t i) {
 #ifdef ASSERT_MOD_POWER_OF_TWO
         return locks[i & size_minus_one];
@@ -52,6 +45,7 @@ public:
     // multi_layer_mutex_pool(int n, int m) : locks(n, single_layer_mutex_pool(m)) {}
 
     multi_layer_mutex_pool(std::vector<int> &n) {
+        locks.reserve(n.size());
         for (int i = 0; i < n.size(); i++) {
             locks.push_back(single_layer_mutex_pool(n[i]));
         }
@@ -85,7 +79,7 @@ mutex_pool_config_t default_mutex_pool_config = {
     {"Tower", {64, 64, 64}}
 };
 
-int test_thread_number = 1;
+int test_thread_number = 8;
 double test_throughput_result = 0;
 
 // control the level of lock action, 0 for no lock, 1 for lock in LRULFU, 2 for lock in Tower
