@@ -154,9 +154,9 @@ void find_MT_config(double mem, double per, int packet_num, int cols, int key_le
         fprintf(f, "%d, ", mutex_num);
     }
     fprintf(f, "\n");
-    for (test_thread_number = 8; test_thread_number < 16; test_thread_number *= 2){
+    for (test_thread_number = 1; test_thread_number < 4; test_thread_number *= 2){
         fprintf(f, "%d, ", test_thread_number);
-        for (int mutex_num = 512*1024; mutex_num < 1024 * 1024; mutex_num *= 2){
+        for (int mutex_num = 1; mutex_num < 1024 * 1024; mutex_num *= 2){
             default_mutex_pool_config["LRULFU"] = {mutex_num};
             freq_test(mem, per, packet_num, cols, key_len, counter_len, rand_seed);
             fprintf(f, "%.6lf, ", test_throughput_result);

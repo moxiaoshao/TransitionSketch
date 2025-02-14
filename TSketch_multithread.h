@@ -30,7 +30,6 @@ public:
         vector<int> final_result(3);
         std::vector<std::vector<int>> thread_results(test_thread_number, std::vector<int>(3, 0));
         thread_results.reserve(test_thread_number);
-        std::mutex result_mutex;
         // distribute the items to different threads
         const int num_threads = test_thread_number;
 
@@ -40,8 +39,7 @@ public:
         for (int i = 0; i < num_threads; ++i) {
             size_t start_idx = i * chunk_size;
             size_t end_idx = (i == num_threads - 1) ? n : (i + 1) * chunk_size;
-            threads.emplace_back([&items, start_idx, end_idx, i, &thread_results, &result_mutex, this]() {
-                std::lock_guard<std::mutex> lock(result_mutex);
+            threads.emplace_back([&items, start_idx, end_idx, i, &thread_results, this]() {
                 thread_results[i] = build(items, start_idx, end_idx);
             });
         }
