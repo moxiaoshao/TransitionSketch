@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "main.h"
 #include "BOBHash32.h"
+#include "../common/error_distribution.h"
 using namespace std;
 #define MAX_INSERT_PACKAGE 32768000
 unordered_map<uint32_t, int> ground_truth;
@@ -73,6 +74,7 @@ void freq_test(double mem, double per, int packet_num, int cols, int key_len, in
     for(auto itr: ground_truth){
         int res =  tower->query(itr.first);
         if(res - itr.second == 0) cnt ++;
+        record.insert_error(res - itr.second);
         are += fabs((double)res - (double)itr.second) / (double)itr.second;
         aae += fabs((double)res - (double)itr.second);
     }
@@ -131,14 +133,23 @@ void topk_test(int topk, double mem, double per, int packet_num, int cols, int k
 
 int main(){
     int topk = 1000;
-    int packet_num = load_data("/share/datasets/CAIDA2018/dataset/130000.dat");
+    // int packet_num = load_data("/share/datasets/CAIDA2018/dataset/130000.dat");
+    int packet_num = load_data("../../../data/130000.dat");
     double per = 0.3;
     int cols = 4;
     int key_len = 32;
     int counter_len = 24;
     int rand_seed = 750;
     double mem_in_kb = 1000;
+    record.clear();
     freq_test(mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
+    double phi_P_miss = 1; // calculate as you want
+    double l = 238933; // this is manually dumped from the code
+    TheoreticalProbabilityFunc wrappedFunc = [phi_P_miss, l](double epsilon) -> double {
+        return theoretical_probability_ours_cm(epsilon, phi_P_miss, l);
+    };
+    record.set_func(wrappedFunc);
+    record.dump_error_distribution();
     cout << '\n';
     topk_test(topk, mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     return 0;

@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "elastic_sketch/ElasticSketch.h"
 #include "BOBHash32.h"
+#include "../../common/error_distribution.h"
 #define MAX_INSERT_PACKAGE 32768000
 using namespace std;
 unordered_map<uint32_t, int> ground_truth;
@@ -53,7 +54,8 @@ int load_data(const char *filename) {
 }
 
 int main(){
-    int packet_num = load_data("/share/datasets/CAIDA2018/dataset/130000.dat");
+    // int packet_num = load_data("/share/datasets/CAIDA2018/dataset/130000.dat");
+    int packet_num = load_data("../../../../data/130000.dat");
     const int memory = 100 * 1024; // bytes
     ElasticSketch sketch(memory / 256, memory);
     timespec dtime1, dtime2;
@@ -67,12 +69,21 @@ int main(){
     double ARE = 0;
     double AAE = 0;
     int cnt = 0;
+    record.clear();
     for(auto itr: ground_truth){
         int res = sketch.query(itr.first);
         if(res == itr.second) cnt ++;
+        record.insert_error(res - itr.second);
         ARE += fabs((double)res - (double)itr.second) / (double)itr.second;
         AAE += fabs((double)res - (double)itr.second);
     }
+    double eta = 1; // calculate as you want
+    double l = 238933; // this is manually dumped from the code
+    TheoreticalProbabilityFunc wrappedFunc = [eta, l](double epsilon) -> double {
+        return theoretical_probability_elastic_cm(epsilon, eta, l);
+    };
+    record.set_func(wrappedFunc);
+    record.dump_error_distribution();
     ARE /= ground_truth.size();
     AAE /= ground_truth.size();
     cout << "ARE = " << ARE << '\n';
