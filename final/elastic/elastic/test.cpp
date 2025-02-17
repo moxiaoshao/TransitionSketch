@@ -83,7 +83,7 @@ int main(){
         return theoretical_probability_elastic_cm(epsilon, eta, l);
     };
     record.set_func(wrappedFunc);
-    record.dump_error_distribution();
+    record.dump_error_distribution(packet_num);
     ARE /= ground_truth.size();
     AAE /= ground_truth.size();
     cout << "ARE = " << ARE << '\n';
