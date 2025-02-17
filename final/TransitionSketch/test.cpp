@@ -149,7 +149,7 @@ int main(){
         return theoretical_probability_ours_tower(epsilon, phi_P_miss, l);
     };
     record.set_func(wrappedFunc);
-    record.dump_error_distribution();
+    record.dump_error_distribution(packet_num);
     cout << '\n';
     topk_test(topk, mem_in_kb, per, packet_num, cols, key_len, counter_len, rand_seed);
     return 0;
