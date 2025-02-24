@@ -2,6 +2,7 @@
 
 ## Introduction
 - The `./TransitionSketch/` directory contains the implementation and tests of TransitionSketch.
+- The new experiments and their comparison algorithms are located in the `final` folder.
 
 ## Information on the Dataset Used in This Project
 - **[WebDocs](http://fimi.uantwerpen.be/data/)**
