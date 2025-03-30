@@ -1,7 +1,7 @@
-# TransitionSketch
+# CascadeSketch
 
 ## Introduction
-- The `./TransitionSketch/` directory contains the implementation and tests of TransitionSketch.
+- The `./TransitionSketch/` directory contains the implementation and tests of CascadeSketch (Note: CascadeSketch is the updated name of our algorithm, previously known as TransitionSketch.).
 - The new experiments and their comparison algorithms are located in the `final` folder.
 
 ## Information on the Dataset Used in This Project
@@ -22,7 +22,7 @@
 
 ## How to Build and Run the Tests
 
-- **Compilation**: To compile the test code for TransitionSketch, run:
+- **Compilation**: To compile the test code for CascadeSketch, run:
 
   ```shell
   cd TransitionSketch
