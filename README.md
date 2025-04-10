@@ -1,7 +1,7 @@
 # AlignSketch
 
 ## Introduction
-- The `./TransitionSketch/` directory contains the implementation and tests of AlignSketch (Note: AlignSketch is the updated name of our algorithm.).
+- The `./TransitionSketch/` directory contains the implementation and tests of AlignSketch.
 - The main experiments and their comparison algorithms are located in the `final` folder.
 
 ## Information on the Dataset Used in This Project
