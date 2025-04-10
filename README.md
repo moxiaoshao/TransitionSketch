@@ -1,8 +1,8 @@
-# CascadeSketch
+# AlignSketch
 
 ## Introduction
-- The `./TransitionSketch/` directory contains the implementation and tests of CascadeSketch (Note: CascadeSketch is the updated name of our algorithm, previously known as TransitionSketch.).
-- The new experiments and their comparison algorithms are located in the `final` folder.
+- The `./TransitionSketch/` directory contains the implementation and tests of AlignSketch (Note: AlignSketch is the updated name of our algorithm.).
+- The main experiments and their comparison algorithms are located in the `final` folder.
 
 ## Information on the Dataset Used in This Project
 - **[WebDocs](http://fimi.uantwerpen.be/data/)**
@@ -22,7 +22,7 @@
 
 ## How to Build and Run the Tests
 
-- **Compilation**: To compile the test code for CascadeSketch, run:
+- **Compilation**: To compile the test code for AlignSketch, run:
 
   ```shell
   cd TransitionSketch
