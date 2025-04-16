@@ -12,10 +12,10 @@ The Webpage dataset consists of a large number of HTML web documents~\cite{web-p
 - **[CAIDA]**
 We use the CAIDA dataset~\cite{caida}, a public dataset containing anonymized real-world network traces from high-speed Internet backbone links. The test data contains a total of 4.2×10^8 items, with 1.6×10^6 distinct items. The maximum frequency of any distinct item is 3.7×10^6.
 
-- **Zipf 1.0**
+- **[Zipf 1.0]**
 We generate a synthetic dataset following a Power-law distributed~\cite{web-polygraph}, with a total of 1.6×10^7 items. The dataset contains 8.7×10^5 distinct items, and the maximum frequency of distinct items is 1.1×10^6. The dataset with skewness 𝛼=1.0.
 
-- **Normal**
+- **[Normal]**
  A synthetic dataset with 𝑋 ∼ N (3.2×10^3, 1.5× 10^7) is generated following a Normal distribution, containing a total of 2×10^8 items. The dataset contains 6.3×10^4 distinct items, and the maximum frequency of distinct item is 1.2×10^4. 
 
 
