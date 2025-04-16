@@ -19,23 +19,6 @@ We generate a synthetic dataset following a Power-law distributed~\cite{web-poly
  A synthetic dataset with 𝑋 ∼ N (3.2×10^3, 1.5× 10^7) is generated following a Normal distribution, containing a total of 2×10^8 items. The dataset contains 6.3×10^4 distinct items, and the maximum frequency of distinct item is 1.2×10^4. 
 
 
-
-
-- **[WebDocs](http://fimi.uantwerpen.be/data/)**
-  - Total stream size: \(3.3 × 10^7\) 
-  - Distinct item number: \(9.5 × 10^5\)
-  - Max frequency: 158,740
-
-- **[CAIDA](https://www.caida.org/catalog/datasets/passive_dataset/)**
-  - Total stream size: \(4.2 × 10^8\)
-  - Distinct item number: \(1.6 × 10^6\)
-  - Max frequency: 3,694,272
-
-- **Zipf 1.0**
-  - Total stream size: \(1.6 × 10^7\)
-  - Distinct item number: \(8.5 × 10^5\)
-  - Max frequency: 1,110,233
-
 ## How to Build and Run the Tests
 
 - **Compilation**: To compile the test code for AlignSketch, run:
