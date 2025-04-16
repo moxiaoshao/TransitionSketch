@@ -6,10 +6,10 @@
 
 ## Information on the Dataset Used in This Project
 
-- **[WebDocs](http://fimi.uantwerpen.be/data/)**
+- **[WebDocs]**
 The Webpage dataset consists of a large number of HTML web documents~\cite{web-page}, with a total of approximately 3.3×10^7 items, among which there are 9.5×10^5 distinct items. The maximum frequency of any distinct item is 1.6×10^5.
     
-- **[CAIDA](https://www.caida.org/catalog/datasets/passive_dataset/)**
+- **[CAIDA]**
 We use the CAIDA dataset~\cite{caida}, a public dataset containing anonymized real-world network traces from high-speed Internet backbone links. The test data contains a total of 4.2×10^8 items, with 1.6×10^6 distinct items. The maximum frequency of any distinct item is 3.7×10^6.
 
 - **Zipf 1.0**
