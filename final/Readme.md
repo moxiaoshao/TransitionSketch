@@ -1,7 +1,7 @@
 ## Introduction
 
-- The `./TransitionSketch/` directory contains the implementation and tests of TransitionSketch.
-- The `./TransitionSketch_multithread/` directory contains the implementation and tests of multithread version of TransitionSketch.
+- The `./TransitionSketch/` directory contains the implementation and tests of AlignSketch.
+- The `./TransitionSketch_multithread/` directory contains the implementation and tests of multithread version of AlignSketch.
 - The `./elastic/` directory contains all the tests of Elastic.
 - The `./LadderFilter/` directory contains all the tests of LadderFilter.
 - The `./SpaceSaving/` directory contains all the tests of SS.
@@ -12,7 +12,7 @@
 
 ## How to make and run the test
 
-- Compilations: To compile test codes of TransitionSketch (multithread), just run: 
+- Compilations: To compile test codes of AlignSketch (multithread), just run: 
 
   ```shell
   cd TransitionSketch
