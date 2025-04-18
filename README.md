@@ -29,8 +29,8 @@ We generate a synthetic dataset following a Power-law distributed~\cite{web-poly
   ./test
   ```
 
-### Multithreaded Version
-To find information on running the multithreaded version of this algorithm, please refer to the **readme.txt** file.
+### Multithreaded Version (in the `final` folder)
+To find information on running the multithreaded version of this algorithm, please refer to the **./final/readme.txt** file.
 
 
 
