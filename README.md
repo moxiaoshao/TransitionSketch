@@ -1,8 +1,8 @@
 # AlignSketch
 
 ## Introduction
-- The `./TransitionSketch/` directory contains the implementation and tests of AlignSketch.
-- The main experiments and their comparison algorithms are located in the `final` folder.
+- The `final` folder contains the implementation and tests of AlignSketch.
+- The main experiments and the algorithms used for comparison are presented here.
 
 ## Information on the Dataset Used in This Project
 
@@ -24,7 +24,6 @@ We generate a synthetic dataset following a Power-law distributed~\cite{web-poly
 - **Compilation**: To compile the test code for AlignSketch, run:
 
   ```shell
-  cd TransitionSketch
   g++ test.cpp -o test -O2
   ./test
   ```
